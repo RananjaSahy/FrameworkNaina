@@ -5,8 +5,12 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import utilities.Utilitaire;
 import java.util.Vector;
+import etu1855.framework.Mapping;
+import java.util.HashMap;
 
 public class FrontServlet extends HttpServlet {
+    HashMap<String, Mapping> MappingUrls;
+
 
   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     PrintWriter out = res.getWriter();
