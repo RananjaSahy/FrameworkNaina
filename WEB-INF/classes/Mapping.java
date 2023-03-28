@@ -6,6 +6,9 @@ public class Mapping {
 	String className;
 	String Method;
 	
+
+
+	// Constructor
 	public Mapping(){
 		
 	}
