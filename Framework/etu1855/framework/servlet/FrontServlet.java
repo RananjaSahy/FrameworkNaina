@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import utilities.*;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -52,6 +53,11 @@ public class FrontServlet extends HttpServlet {
             Constructor construct = maclasse.getConstructor();
 
             ModeleView modview = (ModeleView) maclasse.getMethod(contextInfo.get(key).getMethod()).invoke(construct.newInstance());
+          
+            for (Map.Entry m : modview.getData().entrySet()) {
+                req.setAttribute(m.getKey().toString(),m.getValue());
+            }
+            req.setAttribute("essai","Voici un essai");
             req.getRequestDispatcher("/"+modview.getUrl()).forward(req,res);
         }
 
@@ -77,6 +83,11 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res) throws Se
             Constructor construct = maclasse.getConstructor();
 
             ModeleView modview = (ModeleView) maclasse.getMethod(contextInfo.get(key).getMethod()).invoke(construct.newInstance());
+
+            for (Map.Entry m : modview.getData().entrySet()) {
+                req.setAttribute(m.getKey().toString(),m.getValue());
+            }
+            req.setAttribute("essai","Voici un essai");
             req.getRequestDispatcher("/"+modview.getUrl()).forward(req,res);
         }
 
