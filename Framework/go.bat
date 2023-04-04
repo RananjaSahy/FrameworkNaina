@@ -12,4 +12,4 @@ cd ./../../
 jar cvf projet_test.war *
 copy "./projet_test.war" "./../"
 del projet_test.war
-
+cd .\..\Framework
