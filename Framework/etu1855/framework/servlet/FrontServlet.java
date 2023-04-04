@@ -6,9 +6,11 @@ import jakarta.servlet.http.*;
 import utilities.*;
 import java.util.HashMap;
 import java.util.Vector;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import Annotation.*;
 import etu1855.framework.Mapping;
+import etu1855.framework.ModeleView;
 
 public class FrontServlet extends HttpServlet {
     HashMap<String, Mapping> MappingUrls;
@@ -31,8 +33,6 @@ public class FrontServlet extends HttpServlet {
               //System.out.println(e.getMessage());
           }
 
-
-
   }
 
 
@@ -45,9 +45,14 @@ public class FrontServlet extends HttpServlet {
          HashMap<String,Mapping> contextInfo = utilitaire.getContextInformation(this.MappingUrls,contextUrl);
          for (String key : contextInfo.keySet()) {
             out.println(key);
-            out.println("Classe => " + contextInfo.get(key).getClassName());
-            out.println("Fonction => " + contextInfo.get(key).getMethod());
-            out.println("");
+            
+            
+            Class maclasse = Class.forName(contextInfo.get(key).getClassName());
+            out.println("Classe => " + maclasse.getName());
+            Constructor construct = maclasse.getConstructor();
+
+            ModeleView modview = (ModeleView) maclasse.getMethod(contextInfo.get(key).getMethod()).invoke(construct.newInstance());
+            req.getRequestDispatcher("/"+modview.getUrl()).forward(req,res);
         }
 
     } catch (Exception e) {
@@ -66,6 +71,13 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res) throws Se
             out.println("Classe : " + contextInfo.get(key).getClassName());
             out.println("Fonction : " + contextInfo.get(key).getMethod());
             out.println("");
+            
+            Class maclasse = Class.forName(contextInfo.get(key).getClassName());
+            out.println("Classe => " + maclasse.getName());
+            Constructor construct = maclasse.getConstructor();
+
+            ModeleView modview = (ModeleView) maclasse.getMethod(contextInfo.get(key).getMethod()).invoke(construct.newInstance());
+            req.getRequestDispatcher("/"+modview.getUrl()).forward(req,res);
         }
 
     } catch (Exception e) {
